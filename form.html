@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contact Us</title>
+</head>
+<body>
+
+<h2>Contact Us</h2>
+
+<!-- Direct Email and WhatsApp links -->
+<p>
+  📧 Email: <a href="mailto:sireesharajarapu.cse@gmail.com">your-email@example.com</a><br>
+  💬 WhatsApp: <a href="https://wa.me/917075603875?text=Hello%20I%20want%20to%20contact%20you" target="_blank">Chat on WhatsApp</a>
+</p>
+
+<hr>
+
+<!-- Contact Form -->
+<h3>Or Submit the Form:</h3>
+
+<form id="contactForm">
+  <input type="text" name="name" placeholder="Your Name" required><br><br>
+  <input type="email" name="email" placeholder="Your Email" required><br><br>
+  <textarea name="message" placeholder="Your Message" required></textarea><br><br>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+// Replace this URL with your Google Apps Script Web App URL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwXJ363c5QW318zTA9aRoajU3l5NsjP4Us6tDFQPv5iIFxfvUJ-D4yd5owjSV2XVcay/exec";
+
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+  e.preventDefault(); // Prevent page reload
+
+  const formData = {
+    name: this.name.value,
+    email: this.email.value,
+    message: this.message.value
+  };
+
+  fetch(WEB_APP_URL, {
+    method: "POST",
+    body: JSON.stringify(formData)
+  })
+  .then(response => response.text())
+  .then(data => {
+    alert("Form submitted successfully!");
+    this.reset(); // Clear form
+  })
+  .catch(error => {
+    alert("Error submitting form!");
+    console.error(error);
+  });
+});
+</script>
+
+</body>
+</html>
