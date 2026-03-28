@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Contact Form</title>
+  <title>Supabase Form</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
       font-family: Arial;
+      background: #f4f6f8;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       flex-direction: column;
-      background: #f4f4f4;
     }
 
     form {
@@ -51,13 +51,15 @@
 <form id="form">
   <h2>Contact Form</h2>
 
-  <input type="text" id="name" placeholder="Enter Name" required>
-  <textarea id="message" placeholder="Enter Message" required></textarea>
+  <input type="text" id="name" placeholder="Name" required>
+  <input type="email" id="email" placeholder="Email" required>
+  <textarea id="message" placeholder="Message" required></textarea>
 
   <button type="submit">Submit</button>
 </form>
 
 <script>
+  // 🔥 CONNECT SUPABASE
   const supabase = window.supabase.createClient(
     "https://uewdyxcqrdmsjjqsnnnh.supabase.co",
     "sb_publishable_3w9AaVgKZVk7aGqKLfkP5g_xsjIoWD5"
@@ -69,18 +71,19 @@
     e.preventDefault();
 
     const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
     const message = document.getElementById("message").value;
 
     const { error } = await supabase
       .from("contacts")
-      .insert([{ name, message }]);
+      .insert([{ name, email, message }]);
 
     if (error) {
       console.log(error);
-      msg.innerHTML = "❌ Data not saved";
+      msg.innerHTML = "❌ Error saving data";
       msg.style.color = "red";
     } else {
-      msg.innerHTML = "✅ Message saved successfully";
+      msg.innerHTML = "✅ Data saved to PostgreSQL!";
       msg.style.color = "green";
       document.getElementById("form").reset();
     }
